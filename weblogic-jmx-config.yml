@@ -13,14 +13,11 @@ whitelistObjectNames:
   - "com.bea:ServerRuntime=*,Type=JMSDestinationRuntime,*"
   - "com.bea:ServerRuntime=*,Type=JDBCStoreRuntime,*"
   - "com.bea:ServerRuntime=*,Type=FileStoreRuntime,*"
-  - "com.bea:ServerRuntime=*,Type=SAFRemoteEndpointRuntime,*"
   - "com.bea:ServerRuntime=*,Type=ThreadPoolRuntime,*"
   - "com.bea:ServerRuntime=*,Type=JMSRuntime,*"
   - "com.bea:ServerRuntime=*,Type=SAFRuntime,*"
   - "com.bea:ServerRuntime=*,Type=WorkManagerRuntime,*"
-  - "com.bea:ServerRuntime=*,Type=MessagingBridgeRuntime,*"
   - "com.bea:ServerRuntime=*,Type=PersistentStoreRuntime,*"
-  - "com.bea:ServerRuntime=*,Type=WebServerRuntime,*"
 
 rules:
   # ex: com.bea<ServerRuntime=AdminServer, Name=default, ApplicationRuntime=moduleJMS, Type=WorkManagerRuntime><>CompletedRequests
