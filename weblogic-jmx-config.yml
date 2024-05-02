@@ -24,12 +24,13 @@ whitelistObjectNames:
 
 
 rules:
-  # ex: com.bea<ServerRuntime=AdminServer, Name=default, ApplicationRuntime=moduleJMS, Type=WorkManagerRuntime><>CompletedRequests
-  - pattern: "^com.bea<ServerRuntime=(.+), Name=(.+), (.+)Runtime=(.*), Type=(.+)Runtime><>(.+):"
-    name: weblogic_$3_$5_$6
+  #com.bea<ServerRuntime=AdminServer, Name=AdminServer_/bea_wls_internal, ApplicationRuntime=bea_wls_internal, Type=WebAppComponentRuntime><>SessionsOpenedTotalCount)
+  # com.bea<ServerRuntime=AdminServer, Name=ClientClose, ApplicationRuntime=bea_wls_internal, Type=ServletRuntime, WebAppComponentRuntime=AdminServer_/bea_wls_internal><>ExecutionTimeTotal
+  - pattern: "^com.bea<ServerRuntime=(.+), Name=(.+), (.+)Runtime=(.*), Type=ServletRuntime, WebAppComponentRuntime=(.+)><>(.+):"
+    name: weblogic_$3_$6
     attrNameSnakeCase: true
     labels:
-      runtime: $1
+      server: $1
       name: $2
       application: $4
 
@@ -37,6 +38,23 @@ rules:
   - pattern: "^java.lang<type=OperatingSystem><>(.+):"
     name: weblogic_$1
     attrNameSnakeCase: true
+
+ # ex: com.bea<Name=Server-0, Type=ServerRuntime><>StableState
+  - pattern: "^com.bea<Name=(.+), Type=(.+)Runtime><>(.+):"
+    name: weblogic_$2_$3
+    attrNameSnakeCase: true
+    labels:
+      server: $1
+
+ # com.bea<ServerRuntime=AdminServer, Name=ClientClose, ApplicationRuntime=bea_wls_internal, Type=ServletRuntime, WebAppComponentRuntime=AdminServer_/bea_wls_internal><>InvocationTotalCount
+  # ex: com.bea<ServerRuntime=AdminServer, Name=default, ApplicationRuntime=moduleJMS, Type=WorkManagerRuntime><>CompletedRequests
+  - pattern: "^com.bea<ServerRuntime=(.+), Name=(.+), (.+)Runtime=(.*), Type=(.+)Runtime><>(.+):"
+    name: weblogic_$3_$5_$6
+    attrNameSnakeCase: true
+    labels:
+      server: $1
+      name: $2
+      application: $4
 
   # ex: com.bea<ServerRuntime=Server, Name=dsName, Type=JDBCOracleDataSourceRuntime><>Metric // we have to use JDBCOracleDataSource in case of therap
   - pattern: "^com.bea<ServerRuntime=(.+), Name=(.+), Type=JDBCOracleDataSourceRuntime><>(.+):"
