@@ -6,18 +6,22 @@ attrNameSnakeCase: true
 lowercaseOutputName: true
 lowercaseOutputLabelNames: true
 whitelistObjectNames:
+  - "java.lang:type=OperatingSystem"
+  - "com.bea:ServerRuntime=*,Name=*,Type=JVMRuntime"
+  #- "com.bea:Name=*,Type=Domain"
   - "com.bea:Name=*,Type=ServerRuntime"
-#  - "com.bea:Name=*,Type=Domain"
   - "com.bea:ServerRuntime=*,Type=ApplicationRuntime,*"
   - "com.bea:ServerRuntime=*,Type=JDBCOracleDataSourceRuntime,*"
-  - "com.bea:ServerRuntime=*,Type=JMSDestinationRuntime,*"
-  - "com.bea:ServerRuntime=*,Type=JDBCStoreRuntime,*"
-  - "com.bea:ServerRuntime=*,Type=FileStoreRuntime,*"
   - "com.bea:ServerRuntime=*,Type=ThreadPoolRuntime,*"
   - "com.bea:ServerRuntime=*,Type=JMSRuntime,*"
+  - "com.bea:ServerRuntime=*,Type=JMSServerRuntime,*"
+  - "com.bea:ServerRuntime=*,Type=JMSDestinationRuntime,*"
   - "com.bea:ServerRuntime=*,Type=SAFRuntime,*"
   - "com.bea:ServerRuntime=*,Type=WorkManagerRuntime,*"
   - "com.bea:ServerRuntime=*,Type=PersistentStoreRuntime,*"
+  - "com.bea:ServerRuntime=*,Type=WebAppComponentRuntime,*"
+  - "com.bea:ServerRuntime=*,Type=ServletRuntime,*"
+
 
 rules:
   # ex: com.bea<ServerRuntime=AdminServer, Name=default, ApplicationRuntime=moduleJMS, Type=WorkManagerRuntime><>CompletedRequests
@@ -29,12 +33,17 @@ rules:
       name: $2
       application: $4
 
-  # ex: com.bea<ServerRuntime=AdminServer, Name=dsName, Type=JDBCOracleDataSourceRuntime><>Metric
-  - pattern: "^com.bea<ServerRuntime=(.+), Name=(.+), Type=(.+)Runtime><>(.+):"
-    name: weblogic_$3_$4
+  # ex: java.lang<type=OperatingSystem><>ProcessCpuTime
+  - pattern: "^java.lang<type=OperatingSystem><>(.+):"
+    name: weblogic_$1
+    attrNameSnakeCase: true
+
+  # ex: com.bea<ServerRuntime=Server, Name=dsName, Type=JDBCOracleDataSourceRuntime><>Metric // we have to use JDBCOracleDataSource in case of therap
+  - pattern: "^com.bea<ServerRuntime=(.+), Name=(.+), Type=JDBCOracleDataSourceRuntime><>(.+):"
+    name: weblogic_jdbcoracledatasource_$3
     attrNameSnakeCase: true
     labels:
-      runtime: $1
+      server: $1
       name: $2
 
   # ex: com.bea<ServerRuntime=AdminServer, Name=bea_wls_cluster_internal, Type=ApplicationRuntime><OverallHealthStateJMX>IsCritical
