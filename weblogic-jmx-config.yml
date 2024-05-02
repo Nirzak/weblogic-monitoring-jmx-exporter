@@ -80,6 +80,15 @@ rules:
       server: $1
       name: $2
 
+  #ex: com.bea<ServerRuntime=Server, Name=ThreadPoolRuntime, Type=ThreadPoolRuntime><>Metric
+  - pattern: "^com.bea<ServerRuntime=(.+), Name=(.+), Type=ThreadPoolRuntime><>(.+):"
+    name: weblogic_threadpool_$3
+    attrNameSnakeCase: true
+    labels:
+      server: $1
+      name: $2
+
+
   # ex: com.bea<ServerRuntime=AdminServer, Name=bea_wls_cluster_internal, Type=ApplicationRuntime><OverallHealthStateJMX>IsCritical
   - pattern: "^com.bea<ServerRuntime=(.+), Name=(.+), Type=(.+)Runtime><(.+)>(.+):"
     name: weblogic_$3_$4_$5
