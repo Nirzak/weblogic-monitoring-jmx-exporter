@@ -88,14 +88,21 @@ rules:
       server: $1
       name: $2
 
-
-  # ex: com.bea<ServerRuntime=AdminServer, Name=bea_wls_cluster_internal, Type=ApplicationRuntime><OverallHealthStateJMX>IsCritical
-  - pattern: "^com.bea<ServerRuntime=(.+), Name=(.+), Type=(.+)Runtime><(.+)>(.+):"
-    name: weblogic_$3_$4_$5
+  #ex: com.bea<ServerRuntime=Server, Name=servername.jms, Type=JMSRuntime><>Metric
+  - pattern: "^com.bea<ServerRuntime=(.+), Name=(.+), Type=JMSRuntime><>(.+):"
+    name: weblogic_jms_$3
     attrNameSnakeCase: true
     labels:
-      runtime: $1
-      name: $2
+      server: $1
+      jmsruntime: $2
+
+  #ex: com.bea<ServerRuntime=Server, Name=JMSServer-2a, Type=JMSServerRuntime><>Metric
+  - pattern: "^com.bea<ServerRuntime=(.+), Name=(.+), Type=JMSServerRuntime><>(.+):"
+    name: weblogic_jms_$3
+    attrNameSnakeCase: true
+    labels:
+      server: $1
+      jmsserver: $2
 
 # uncomment this to fetch domain name from mbeans
 #  - pattern: "^com.bea<Name=(.*), Type=Domain><>(id): (.+)"
