@@ -72,7 +72,7 @@ rules:
       server: $1
       name: $2
 
-  # ex: com.bea<ServerRuntime=Server, Name=dsName, Type=JDBCOracleDataSourceRuntime><>Metric // we have to use JDBCOracleDataSource in case of therap
+  # ex: com.bea<ServerRuntime=Server, Name=dsName, Type=JDBCOracleDataSourceRuntime><>Metric // we have to use JDBCOracleDataSource for weblogic jdbc pool
   - pattern: "^com.bea<ServerRuntime=(.+), Name=(.+), Type=JDBCOracleDataSourceRuntime><>(.+):"
     name: weblogic_jdbcoracledatasource_$3
     attrNameSnakeCase: true
