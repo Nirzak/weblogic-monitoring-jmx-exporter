@@ -104,6 +104,21 @@ rules:
       server: $1
       jmsserver: $2
 
+  #ex: com.bea<ServerRuntime=Server, Name=module!servername@topicname, Type=JMSDestinationRuntime, JMSServerRuntime=JMSServer-2a><>Metric
+  - pattern: "^com.bea<ServerRuntime=(.+), Name=(.+), Type=JMSDestinationRuntime, JMSServerRuntime=(.+)><>(.+):"
+    name: weblogic_jms_dest_$4
+    attrNameSnakeCase: true
+    labels:
+      server: $1
+      destination: $2
+      jmsserver: $3
+
+  - pattern: "^com.bea<ServerRuntime=.+, Name=(.+), Type=SAFRemoteEndpointRuntime><>(.+):"
+    attrNameSnakeCase: true
+    name: weblogic_messaging_$2
+    labels:
+      endpoint: $1 
+
 # uncomment this to fetch domain name from mbeans
 #  - pattern: "^com.bea<Name=(.*), Type=Domain><>(id): (.+)"
 #    name: weblogic_id
