@@ -56,6 +56,14 @@ rules:
       name: $2
       application: $4
 
+  # ex: com.bea<ServerRuntime=Server, Name=application, Type=ApplicationRuntime><>Metric
+  - pattern: "^com.bea<ServerRuntime=(.+), Name=(.+), Type=ApplicationRuntime><>(.+):"
+    name: weblogic_application_$3
+    attrNameSnakeCase: true
+    labels:
+      server: $1
+      name: $2
+
   # ex: com.bea<ServerRuntime=Server, Name=dsName, Type=JDBCOracleDataSourceRuntime><>Metric // we have to use JDBCOracleDataSource in case of therap
   - pattern: "^com.bea<ServerRuntime=(.+), Name=(.+), Type=JDBCOracleDataSourceRuntime><>(.+):"
     name: weblogic_jdbcoracledatasource_$3
