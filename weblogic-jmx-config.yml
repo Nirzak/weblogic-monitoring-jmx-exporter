@@ -7,7 +7,7 @@ lowercaseOutputName: true
 lowercaseOutputLabelNames: true
 whitelistObjectNames:
   - "com.bea:Name=*,Type=ServerRuntime"
-  - "com.bea:Name=*,Type=Domain"
+#  - "com.bea:Name=*,Type=Domain"
   - "com.bea:ServerRuntime=*,Type=ApplicationRuntime,*"
   - "com.bea:ServerRuntime=*,Type=JDBCOracleDataSourceRuntime,*"
   - "com.bea:ServerRuntime=*,Type=JMSDestinationRuntime,*"
@@ -48,8 +48,9 @@ rules:
       runtime: $1
       name: $2
 
-  - pattern: "^com.bea<Name=(.*), Type=Domain><>(id): (.+)"
-    name: weblogic_id
-    attrNameSnakeCase: true
-    labels:
-      domain: $1
+# uncomment this to fetch domain name from mbeans
+#  - pattern: "^com.bea<Name=(.*), Type=Domain><>(id): (.+)"
+#    name: weblogic_id
+#    attrNameSnakeCase: true
+#    labels:
+#      domain: $1
